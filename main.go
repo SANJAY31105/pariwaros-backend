@@ -82,9 +82,10 @@ func getBills(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// In a real app, you'd get the user ID from a JWT token.
 	// For this demo, we'll just return some mock data.
-	mockBills := []Bill{
-		{Amount: 1245.00, DueDate: "2025-09-15", IsPaid: false, Biller: Biller{ProviderName: "Telangana Electricity"}},
-		{Amount: 499.00, DueDate: "2025-08-20", IsPaid: true, Biller: Biller{ProviderName: "Airtel Postpaid"}},
+	// FIX: Removed the nested Biller struct which was causing a compilation error.
+	mockBills := []map[string]interface{}{
+		{"ProviderName": "Telangana Electricity", "Amount": 1245.00, "DueDate": "2025-09-15", "IsPaid": false},
+		{"ProviderName": "Airtel Postpaid", "Amount": 499.00, "DueDate": "2025-08-20", "IsPaid": true},
 	}
 	json.NewEncoder(w).Encode(mockBills)
 }
